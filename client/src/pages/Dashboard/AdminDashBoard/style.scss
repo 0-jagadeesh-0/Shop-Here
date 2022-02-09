@@ -1,0 +1,27 @@
+.admin-dashboard {
+    margin: 0;
+    padding: 0;
+
+    .dashboard {
+        display: flex;
+        flex-direction: row;
+        height: calc(100vh - 70px);
+        background-color: #000;
+
+        .sidebar {
+            width: 250px;
+            background-color: white;
+
+            .sidebar-menu {
+                display: flex;
+                align-items: center;
+                margin: 10% 0;
+                cursor: pointer;
+
+                .menu-icon {
+                    margin: 0 5%;
+                }
+            }
+        }
+    }
+}

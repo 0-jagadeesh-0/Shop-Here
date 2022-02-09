@@ -1,0 +1,36 @@
+.navbar {
+    width: 100vw;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+
+    .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // font-size: 2rem;
+        font-weight: bolder;
+        padding: 5px;
+    }
+
+    .search {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .cart-badge {
+            margin: 5px;
+        }
+
+        .login-btn {
+            margin: 0 15px;
+            background-color: #0063cc;
+        }
+    }
+}

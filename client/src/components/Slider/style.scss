@@ -1,0 +1,45 @@
+.d-block {
+    opacity: 0.7;
+    width: 100vw;
+    height: 70vh;
+}
+
+.carousel-caption {
+    text-align: center;
+
+    .cap {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 1.6rem;
+        font-weight: 500;
+
+        span {
+            font-size: 2rem;
+        }
+    }
+
+}
+
+@media screen and (max-width:768px) {
+    .d-block {
+        height: 50vh;
+    }
+
+    .carousel-caption {
+        .cap {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+
+            span {
+                font-size: 1.7rem;
+            }
+        }
+    }
+
+}

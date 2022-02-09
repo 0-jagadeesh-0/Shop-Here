@@ -1,0 +1,19 @@
+.profile-container {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+
+
+    .user-info {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .field {
+            margin: 20px;
+            width: 270px;
+        }
+    }
+}
