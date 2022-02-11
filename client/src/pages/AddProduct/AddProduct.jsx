@@ -28,6 +28,9 @@ function AddProduct() {
         }).catch((err) => {
             console.log(err);
         })
+        if (image === null) {
+            return;
+        }
         addproduct({ title, description, price, size, color, image, userId }).then((res) => {
             console.log(res.data);
         }).catch((res) => {
@@ -97,6 +100,7 @@ function AddProduct() {
                     onChange={handleFileInputChange}
                     style={{ margin: "5% 0", border: "none", cursor: "pointer" }}
                     type='file'
+                    accept="image/*"
 
                 />
                 {

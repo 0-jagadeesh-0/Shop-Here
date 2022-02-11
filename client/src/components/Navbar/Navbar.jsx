@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import './style.scss';
 import { Alert, Badge, Button, IconButton, Link, Paper, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
+import { getusercart } from '../../api/cart';
 // import logo from '../../Assets/logo.png';
 
 
 function Navbar() {
 
+    const [quantity, setQuantity] = useState(0);
+
     const [popup, setPopup] = useState(false);
 
     const navigate = useNavigate();
     let type;
+
+    useEffect(() => {
+        getusercart().then((res) => {
+            setQuantity(res.data.length);
+        })
+    }, [quantity])
+
+
+
 
 
     if (localStorage.getItem("token")) {
@@ -76,7 +88,7 @@ function Navbar() {
             }
             {
                 localStorage.getItem("isAdmin") === "true" ? null : <IconButton onClick={handleCartClick} className='cart-badge'>
-                    <Badge badgeContent={0} color='secondary'>
+                    <Badge badgeContent={quantity} color='secondary'>
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>

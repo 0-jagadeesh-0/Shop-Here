@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const uploadRoutes = require("./routes/upload");
+const cartRoutes = require("./routes/cart");
 
 
 dotenv.config();
@@ -16,10 +17,11 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
 
-app.use("/api/upload/", uploadRoutes);
+app.use("/api/image/", uploadRoutes);
 app.use("/api/auth/", authRoutes);
 app.use("/api/user/", userRoutes);
 app.use("/api/product/", productRoutes);
+app.use("/api/cart/", cartRoutes);
 
 app.get("/", (req, res) => {
     res.status(200).json("Hello");

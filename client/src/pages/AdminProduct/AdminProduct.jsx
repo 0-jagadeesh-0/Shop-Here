@@ -68,27 +68,23 @@ function AdminProduct() {
                 <TextField
                     className='field'
                     label="Title"
-                    value={previewTitle}
-                    disabled
+                    defaultValue={previewTitle}
 
                 />
                 <TextField
                     className='field'
                     label="Description"
-                    value={previewDescription}
-                    disabled
+                    defaultValue={previewDescription}
                 />
                 <TextField
                     className='field'
                     label="Color"
-                    value={previewColor}
-                    disabled
+                    defaultValue={previewColor}
                 />
                 <TextField
                     className='field'
                     label="Size"
-                    value={previewSize}
-                    disabled
+                    defaultValue={previewSize}
                 />
                 <Image
                     className='field'

@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar/Navbar'
 import './style.scss';
 import { getproduct } from '../../api/products';
 import { Image } from 'cloudinary-react';
+import { addcartitem } from '../../api/cart';
 
 function Product() {
 
@@ -21,6 +22,12 @@ function Product() {
         }
         getItem();
     }, [id]);
+
+    const handleClick = async () => {
+        await addcartitem({ quantity: 1, productId: id, userId: localStorage.getItem("userId") }).then((res) => {
+            console.log(res);
+        })
+    }
 
 
     return <Box className='main'>
@@ -59,7 +66,7 @@ function Product() {
                     </Box>
                 </Box>
                 <Box className='product-order'>
-                    <Button variant='contained' disableElevation>
+                    <Button variant='contained' onClick={handleClick} disableElevation>
                         Add to cart
                     </Button>
                     <Button variant='contained' disableElevation>
