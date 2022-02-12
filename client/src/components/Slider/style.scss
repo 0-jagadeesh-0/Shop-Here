@@ -1,7 +1,7 @@
 .d-block {
     opacity: 0.7;
     width: 100vw;
-    height: 70vh;
+    height: calc(100vh - 70px);
 }
 
 .carousel-caption {

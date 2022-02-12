@@ -1,4 +1,15 @@
 .category-card {
+    margin: 0;
+    padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+
+    .sub-category {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 10px;
+    }
 }

@@ -29,31 +29,13 @@ const createCart = async (req, res) => {
     }
 }
 
-const addItem = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const newItem = Cart({
-            items: [{
-                productId: req.body.productId
-            },
-            {
-                quantity: req.body.quantity
-            }
-
-            ]
-        })
-    } catch (error) {
-
-    }
-}
-
 // GET USER CART 
 
 const getCart = async (req, res) => {
     try {
         const products = [];
         const cartItems = await Cart.find({ userId: req.params.id }).populate('productId');
-        // if (cartItems.length === 0) return res.status(203).json({ message: "Cart is Empty." });
+        if (cartItems.length === 0) return res.status(203).json({ message: "Cart is Empty." });
         cartItems.forEach(product => {
             const cartId = product._id;
             const title = product.productId.title;
@@ -83,4 +65,4 @@ const deleteCartItem = async (req, res) => {
     }
 }
 
-module.exports = { createCart, addItem, getCart, deleteCartItem };
+module.exports = { createCart, getCart, deleteCartItem };

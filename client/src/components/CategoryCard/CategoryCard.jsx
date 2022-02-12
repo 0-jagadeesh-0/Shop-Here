@@ -1,20 +1,21 @@
 import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import React from 'react';
+import './style.scss'
 
-function CategoryCard() {
+function CategoryCard({ image, category }) {
     return <Box className='category-container'>
-        <Link to={"/login"}>
-            <img className='category-image' src="" alt='' />
-            <Box>
-                <Typography>
-                    {/* Hello */}
-                </Typography>
-                <Button variant='contained' color="primary">
-                    {/* SHOP NOW */}
-                </Button>
-            </Box>
-        </Link>
+
+        <img className='category-image' src={image} alt='' />
+
+        <Typography className='category-text'>
+            {category}
+        </Typography>
+        <Button className='category-btn' variant='contained' color="primary" disableElevation>
+            SHOP NOW
+        </Button>
+
+
     </Box>
 }
 

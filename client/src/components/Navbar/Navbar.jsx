@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import './style.scss';
-import { Alert, Badge, Button, IconButton, Link, Paper, Typography } from '@mui/material';
+import { Alert, Avatar, Badge, Button, IconButton, Link, Paper, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
 import { getusercart } from '../../api/cart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import logo from '../../Assets/logo.png';
 
 
@@ -19,9 +20,12 @@ function Navbar() {
     let type;
 
     useEffect(() => {
-        getusercart().then((res) => {
-            setQuantity(res.data.length);
-        })
+        if (localStorage.getItem("token")) {
+            getusercart().then((res) => {
+                setQuantity(res.data.length);
+            })
+        }
+
     }, [quantity])
 
 
@@ -92,6 +96,13 @@ function Navbar() {
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>
+            }
+            {
+                localStorage.getItem("token") ? <IconButton onClick={() => { navigate('/profile') }} className='cart-badge'>
+
+                    <AccountCircleIcon color="primary" />
+
+                </IconButton> : null
             }
 
 

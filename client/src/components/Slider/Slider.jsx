@@ -4,8 +4,10 @@ import { Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.scss'
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Slider() {
+    const navigate = useNavigate();
     return <Carousel variant='dark'>
         <Carousel.Item interval={1000}>
             <img
@@ -17,7 +19,7 @@ function Slider() {
                 <div className='cap'>Fresh Season Arrivals</div>
                 <p>SPRING-SUMMER '22</p>
                 {/* <Button variant="primary">SHOP NOW</Button> */}
-                <Button variant='contained' color='primary'>
+                <Button onClick={() => { navigate('/products') }} variant='contained' color='primary' disableElevation>
                     SHOP NOW
                 </Button>
             </Carousel.Caption>
@@ -31,7 +33,7 @@ function Slider() {
             <Carousel.Caption>
                 <div className='cap'>Flash Deal</div>
                 <p>Premium Brands</p>
-                <Button variant='contained' color="primary">SHOP NOW</Button>
+                <Button onClick={() => { navigate('/products') }} variant='contained' color="primary" disableElevation>SHOP NOW</Button>
             </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -43,7 +45,7 @@ function Slider() {
             <Carousel.Caption>
                 <div className='cap'>Styles in your budget</div>
                 <p>Starting at <span>₹399</span> </p>
-                <Button variant='contained' color="primary">SHOP NOW</Button>
+                <Button onClick={() => { navigate('/products') }} variant='contained' color="primary" disableElevation>SHOP NOW</Button>
             </Carousel.Caption>
         </Carousel.Item>
     </Carousel>
