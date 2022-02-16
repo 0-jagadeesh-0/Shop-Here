@@ -1,8 +1,14 @@
+const { uploadImage } = require("../middlewares/upload");
 const Product = require("../models/product")
+const { cloudinary } = require('../utils/cloudinary');
 
 // CREATE PRODUCT 
 
 const addProduct = async (req, res) => {
+
+    const imageLink = await uploadImage(req.body.previewSource);
+
+
     try {
         const newProduct = await Product({
             title: req.body.title,
@@ -10,10 +16,12 @@ const addProduct = async (req, res) => {
             price: req.body.price,
             size: req.body.size,
             color: req.body.color,
-            image: req.body.image,
-            userId: req.body.userId
+            image: imageLink,
+            category: req.body.category,
+            adminId: req.body.adminId
         })
         await newProduct.save();
+        console.log(newProduct);
         res.status(200).json(newProduct);
     } catch (error) {
         res.status(400).json("unable to add product.");
@@ -104,5 +112,6 @@ const getAdminProducts = async (req, res) => {
         res.status(400).json(error);
     }
 }
+
 
 module.exports = { addProduct, getAllProducts, updateProduct, deleteProduct, findProduct, getAdminProducts };

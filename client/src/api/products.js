@@ -11,7 +11,7 @@ export const getproduct = async (id) => {
 }
 
 export const addproduct = async (payload) => {
-    return await axios.post(`${BASE_URL}/api/product/add/${payload.userId}`, payload, { headers: { "token": localStorage.getItem("token") } });
+    return await axios.post(`${BASE_URL}/api/product/add/${localStorage.getItem("userId")}`, payload, { headers: { "token": localStorage.getItem("token") } });
 }
 
 export const getadminproducts = async (id) => {

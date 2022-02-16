@@ -7,7 +7,7 @@ export const getusercart = async () => {
 }
 
 export const addcartitem = async (payload) => {
-    return await axios.post(`${BASE_URL}/api/cart/add`, payload, { headers: { "token": localStorage.getItem("token") } });
+    return await axios.post(`${BASE_URL}/api/cart/add/${localStorage.getItem("userId")}`, payload, { headers: { "token": localStorage.getItem("token") } });
 }
 
 export const deleteitem = async (id) => {

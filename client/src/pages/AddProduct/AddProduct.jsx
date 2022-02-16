@@ -6,35 +6,37 @@ import './style.scss'
 import AddIcon from '@mui/icons-material/Add';
 
 function AddProduct() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [size, setSize] = useState("");
-    const [color, setColor] = useState("");
-    // const [category, setCategory] = useState([]);
-    // const [fileInput, setFileInput] = useState("");
+
+    const initialValues = {
+        title: "",
+        description: "",
+        price: "",
+        size: "",
+        color: "",
+        category: ""
+    }
+    const [input, setInput] = useState(initialValues);
     const [previewSource, setPreviewSource] = useState("");
     const [image, setImage] = useState("");
 
-    const userId = localStorage.getItem("userId");
+    const adminId = localStorage.getItem("userId");
+
+
 
 
     const handleClick = async (e) => {
         e.preventDefault();
         if (!previewSource) return;
-        await upload({ data: previewSource }).then((res) => {
-            setImage(res.data);
-            console.log(res.data);
-        }).catch((err) => {
-            console.log(err);
-        })
-        if (image === null) {
-            return;
-        }
-        addproduct({ title, description, price, size, color, image, userId }).then((res) => {
+        // await upload({ data: previewSource }).then((res) => {
+        //     setImage(res.data);
+        //     console.log(res.data);
+        // }).catch((err) => {
+        //     console.log(err);
+        // })
+        addproduct({ ...input, category: input.category.split(','), previewSource, adminId }).then((res) => {
             console.log(res.data);
         }).catch((res) => {
-            console.log(res);
+            console.log(res.data);
         })
 
     }
@@ -57,6 +59,11 @@ function AddProduct() {
         }
     }
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setInput({ ...input, [name]: value });
+    }
+
     return <Box className='add-product-container'>
         <Box className='product-info'>
             <Avatar style={{ backgroundColor: "#2196f3", margin: "1% 0" }}  >
@@ -67,32 +74,51 @@ function AddProduct() {
                 <TextField
                     className='text-field'
                     size='small'
+                    name='title'
+                    value={input.title}
                     label="Title"
-                    onChange={(e) => { setTitle(e.target.value) }}
+                    onChange={handleInputChange}
                 />
                 <TextField
                     className='text-field'
                     size='small'
+                    name='description'
+                    value={input.description}
                     label="Description"
-                    onChange={(e) => { setDescription(e.target.value) }}
+                    onChange={handleInputChange}
                 />
                 <TextField
                     className='text-field'
                     size='small'
+                    name='category'
+                    value={input.category}
+                    label='Category'
+                    onChange={handleInputChange}
+                />
+                <TextField
+                    className='text-field'
+                    size='small'
+                    name='price'
+                    value={input.price}
                     label="price"
-                    onChange={(e) => { setPrice(e.target.value) }}
+                    onChange={handleInputChange}
                 />
+
                 <TextField
                     className='text-field'
                     size='small'
+                    name='size'
+                    value={input.size}
                     label="Size"
-                    onChange={(e) => { setSize(e.target.value) }}
+                    onChange={handleInputChange}
                 />
                 <TextField
                     className='text-field'
                     size='small'
+                    name='color'
+                    value={input.color}
                     label="Color"
-                    onChange={(e) => { setColor(e.target.value) }}
+                    onChange={handleInputChange}
                 />
 
                 <input

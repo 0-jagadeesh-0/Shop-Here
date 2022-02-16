@@ -70,7 +70,7 @@ function AdminProducts() {
     }
 
 
-    return <>{localStorage.getItem("isAdmin") === "true" ? <>
+    return <>{localStorage.getItem("token") && localStorage.getItem("isAdmin") === "true" ? <>
         <Navbar />
         <Box className='admin-products-container'>
             {

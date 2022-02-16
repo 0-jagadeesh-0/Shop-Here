@@ -1,31 +1,40 @@
 import { Box, Button, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Navbar from '../../components/Navbar/Navbar'
 import './style.scss';
 import { getproduct } from '../../api/products';
 import { Image } from 'cloudinary-react';
-import { addcartitem } from '../../api/cart';
+import { addcartitem, getusercart } from '../../api/cart';
+import { CartContext } from '../../pages/Cart/cartContext';
 
 function Product() {
 
-    const id = window.location.pathname.split("/")[2];
+    const productId = window.location.pathname.split("/")[2];
 
     const [product, setProduct] = useState({});
+
+    const quantity = 1;
+
+    const { updateCart } = useContext(CartContext);
+
 
 
 
     useEffect(() => {
         const getItem = async () => {
-            await getproduct(id).then((res) => {
+            await getproduct(productId).then((res) => {
                 setProduct(res.data);
             })
         }
         getItem();
-    }, [id]);
+    }, [productId]);
 
     const handleClick = async () => {
-        await addcartitem({ quantity: 1, productId: id, userId: localStorage.getItem("userId") }).then((res) => {
+        await addcartitem({ quantity, productId }).then((res) => {
             console.log(res);
+        })
+        getusercart().then((res) => {
+            updateCart(res.data);
         })
     }
 

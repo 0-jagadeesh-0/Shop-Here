@@ -5,8 +5,16 @@ const mongoose = require("mongoose");
 // CREATE CART 
 
 const createCart = async (req, res) => {
+
+    const { id } = req.params;
+    console.log(id);
+
     try {
-        const newCart = await Cart(req.body);
+        const newCart = await Cart({
+            userId: id,
+            productId: req.body.productId,
+            quantity: req.body.quantity
+        });
         const quant = req.body.quantity;
         const itemExists = await Cart.findOne({ productId: req.body.productId });
         if (itemExists) {
@@ -32,9 +40,10 @@ const createCart = async (req, res) => {
 // GET USER CART 
 
 const getCart = async (req, res) => {
+    const { id } = req.params;
     try {
         const products = [];
-        const cartItems = await Cart.find({ userId: req.params.id }).populate('productId');
+        const cartItems = await Cart.find({ userId: id }).populate('productId');
         if (cartItems.length === 0) return res.status(203).json({ message: "Cart is Empty." });
         cartItems.forEach(product => {
             const cartId = product._id;
@@ -46,11 +55,10 @@ const getCart = async (req, res) => {
             const data = { title, cartId, description, price, image, quant };
             products.push(data);
         })
-
         res.status(200).json(products);
 
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json("unable to get data.");
 
     }
 }

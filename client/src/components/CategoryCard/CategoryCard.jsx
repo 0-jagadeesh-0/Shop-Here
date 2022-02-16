@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import './style.scss'
 
-function CategoryCard({ image, category }) {
+function CategoryCard({ onClick, image, category }) {
     return <Box className='category-container'>
 
         <img className='category-image' src={image} alt='' />
@@ -11,11 +11,9 @@ function CategoryCard({ image, category }) {
         <Typography className='category-text'>
             {category}
         </Typography>
-        <Button className='category-btn' variant='contained' color="primary" disableElevation>
+        <Button onClick={onClick} className='category-btn' variant='contained' color="primary" disableElevation>
             SHOP NOW
         </Button>
-
-
     </Box>
 }
 

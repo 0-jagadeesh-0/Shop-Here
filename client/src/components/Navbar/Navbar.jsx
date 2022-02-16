@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
 import './style.scss';
-import { Alert, Avatar, Badge, Button, IconButton, Link, Paper, Typography } from '@mui/material';
+import { Alert, Badge, Button, IconButton, Link, Paper, Typography } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import SearchBar from '../SearchBar/SearchBar';
 import { useNavigate } from 'react-router-dom';
 import { getusercart } from '../../api/cart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // import logo from '../../Assets/logo.png';
+import { CartContext } from '../../pages/Cart/cartContext';
 
 
 function Navbar() {
 
-    const [quantity, setQuantity] = useState(0);
+    const { cartItems, updateCart } = useContext(CartContext);
+
+    // const item = useContext(CartContext);
+    // console.log(item);
+
+    // const [quantity, setQuantity] = useState(0);
+
+    useEffect(() => {
+        getusercart().then((res) => {
+            updateCart(res.data);
+        })
+    }, [])
+
 
     const [popup, setPopup] = useState(false);
 
     const navigate = useNavigate();
     let type;
-
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            getusercart().then((res) => {
-                setQuantity(res.data.length);
-            })
-        }
-
-    }, [quantity])
 
 
 
@@ -55,6 +59,7 @@ function Navbar() {
         }
         if (type === "LOGOUT") {
             localStorage.clear();
+            updateCart([]);
             navigate("/");
         }
     }
@@ -92,7 +97,7 @@ function Navbar() {
             }
             {
                 localStorage.getItem("isAdmin") === "true" ? null : <IconButton onClick={handleCartClick} className='cart-badge'>
-                    <Badge badgeContent={quantity} color='secondary'>
+                    <Badge badgeContent={cartItems.length} color='secondary'>
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>

@@ -1,17 +1,16 @@
 const { cloudinary } = require("../utils/cloudinary");
 
 
-const uploadImage = async (req, res) => {
+const uploadImage = async (file) => {
     try {
-        const file = req.body.data;
-        const uploadResponse = cloudinary.uploader.upload(file, {
+        const uploadResponse = await cloudinary.uploader.upload(file, {
             upload_preset: "shop-here-images"
         })
-        console.log((await uploadResponse).public_id);
-        res.status(200).json((await uploadResponse).public_id);
+
+        return uploadResponse.public_id;
 
     } catch (error) {
-        res.status(400).json(error);
+        return '';
     }
 }
 
