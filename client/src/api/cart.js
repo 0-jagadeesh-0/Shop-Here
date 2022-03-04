@@ -15,5 +15,5 @@ export const deleteitem = async (id) => {
 }
 
 export const updatecart = async (payload) => {
-    return await axios.put(`${BASE_URL}/api/cart/${payload.cartId}`, payload, { headers: { "token": localStorage.getItem("token") } })
+    return await axios.put(`${BASE_URL}/api/cart/${localStorage.getItem("userId")}`, payload, { headers: { "token": localStorage.getItem("token") } })
 }

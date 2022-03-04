@@ -1,6 +1,6 @@
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Paper, Typography } from '@mui/material';
 import React, { useState, useEffect, useContext } from 'react';
-import { deleteitem, getusercart } from '../../api/cart';
+import { deleteitem, getusercart, updatecart } from '../../api/cart';
 import Navbar from '../../components/Navbar/Navbar';
 import './style.scss'
 import { Image } from 'cloudinary-react';
@@ -8,19 +8,20 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { Navigate } from 'react-router-dom';
 import { CartContext } from './cartContext';
+import { deleteorder } from '../../api/order';
 
 
 
 function Cart() {
     const { cartItems, updateCart } = useContext(CartContext);
-    // console.log(cartItems);
 
     const [empty, setEmpty] = useState(false);
-    const [quantity, setQuantity] = useState(0);
-    const [sum, setsum] = useState(0)
+    const [sum, setsum] = useState(0);
+    const discount = (sum * 0.02).toFixed(2);
 
     useEffect(() => {
         let total = 0;
+
         getusercart().then((res) => {
             if (res.status === 203) {
                 setEmpty(true);
@@ -37,20 +38,28 @@ function Cart() {
         }
         findSum();
         setsum(total);
-    }, [updateCart]);
+    }, [cartItems, updateCart]);
 
-    const handleIncrease = () => {
-        setQuantity(quantity + 1);
+    const handleIncrease = (id, value) => {
+        updatecart({ cartId: id, quantity: (value + 1) }).then((res) => {
+            console.log(res.data);
+        })
     }
-    const handleDecrease = () => {
-        setQuantity(quantity - 1);
+    const handleDecrease = (id, value) => {
+        updatecart({ cartId: id, quantity: (value - 1) }).then((res) => {
+            console.log(res.data);
+        })
     }
 
     const handleRemove = (id) => {
         deleteitem(id).then((res) => {
             console.log(res);
         })
+        deleteorder(id).then((res) => {
+            console.log(res);
+        })
     }
+
 
 
 
@@ -73,15 +82,16 @@ function Cart() {
                                     height="150px"
                                 />
                                 <Typography variant="h6" style={{ fontWeight: "bold" }}>
-                                    {val.title}
+                                    {val.title}<br />
+                                    <span style={{ fontWeight: "normal", fontSize: "1rem" }}>{val.description}</span>
                                 </Typography>
                                 <Box className="product-quantity">
-                                    <AddCircleOutlineOutlinedIcon onClick={handleIncrease} style={{ cursor: "pointer" }} />
+                                    <AddCircleOutlineOutlinedIcon onClick={() => { handleIncrease(val.cartId, val.quant) }} style={{ cursor: "pointer" }} />
                                     <Typography>
 
                                         {val.quant}
                                     </Typography>
-                                    <RemoveCircleOutlineOutlinedIcon onClick={handleDecrease} style={{ cursor: "pointer" }} />
+                                    <RemoveCircleOutlineOutlinedIcon onClick={() => { handleDecrease(val.cartId, val.quant) }} style={{ cursor: "pointer" }} />
                                 </Box>
                                 <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
                                     <Typography style={{ margin: "10px 0", fontWeight: "600" }}>
@@ -96,23 +106,26 @@ function Cart() {
                     }
                 </Box>
                 <Box className="checkout">
-                    <Box className="checkout-box">
-                        <Typography>
-                            Total Items
+                    <Paper className="checkout-box" elevation={3}>
+                        <Typography className='checkout-item'>
+                            <span style={{ fontWeight: "bold" }}>Price Details({cartItems.length} Items)</span>
                         </Typography>
-                        <Typography>
-                            Tax
+
+                        <Typography className='checkout-item'>
+                            Total MRP : ₹{sum}
                         </Typography>
-                        <Typography>
-                            Discount
+                        <Typography className='checkout-item'>
+                            Discount on MRP : ₹{discount}
                         </Typography>
-                        <Typography>
-                            Sub Total = {sum}
+                        <hr />
+                        <Typography className='checkout-item'>
+                            <span style={{ fontWeight: "bold" }}>Total Amount :</span>  ₹{sum - discount}
                         </Typography>
-                        <Button variant="contained" color="primary" disableElevation>
-                            Checkout
+                        <hr />
+                        <Button className='checkout-item' size="small" variant="contained" color="primary" disableElevation>
+                            place order
                         </Button>
-                    </Box>
+                    </Paper>
                 </Box>
             </Box>
 

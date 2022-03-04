@@ -12,6 +12,7 @@
         .product-image {
             width: 600px;
             height: 600px;
+            border: 0.5px solid gray;
         }
 
         .product-info {
@@ -24,6 +25,28 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+
+                .product-size {
+                    display: flex;
+                    flex-direction: column;
+
+                    .size-options {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+
+                        .size-option {
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                            cursor: pointer;
+                            margin: 5px;
+                            border: 1px solid black;
+                        }
+
+                    }
+                }
             }
 
             .product-order {

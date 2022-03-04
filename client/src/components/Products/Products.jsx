@@ -11,6 +11,7 @@ function Products() {
 
     const navigate = useNavigate();
     const category = window.location.pathname.split("/")[2];
+    console.log(category);
 
 
 

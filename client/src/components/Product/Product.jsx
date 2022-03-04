@@ -6,6 +6,7 @@ import { getproduct } from '../../api/products';
 import { Image } from 'cloudinary-react';
 import { addcartitem, getusercart } from '../../api/cart';
 import { CartContext } from '../../pages/Cart/cartContext';
+import { addorder } from '../../api/order';
 
 function Product() {
 
@@ -33,6 +34,9 @@ function Product() {
         await addcartitem({ quantity, productId }).then((res) => {
             console.log(res);
         })
+        await addorder({ quantity, productId }).then((res) => {
+            console.log(res);
+        })
         getusercart().then((res) => {
             updateCart(res.data);
         })
@@ -52,10 +56,10 @@ function Product() {
                     {product.title}
                 </Typography>
                 <Typography className='product-desc' variant='h6'>
-                    A enzyme washed denim shirt, full sleeves with a chest pocket and metal buttons with a special buttin down collar
+                    {product.description}
                 </Typography>
                 <Typography variant='h4'>
-                    Price: $ {product.price}
+                    Price: ₹ {product.price}
                 </Typography>
                 <Box className='product-details'>
                     <Box className='product-color'>
@@ -66,12 +70,16 @@ function Product() {
                         </select>
                     </Box>
                     <Box className='product-size'>
-                        <select>
-                            <option value="">Size</option>
-                            <option value="">S</option>
-                            <option value="">M</option>
-                            <option value="">L</option>
-                        </select>
+                        <Box> Size</Box>
+                        <Box className="size-options">
+
+                            {
+                                product.size?.map((val) => {
+                                    return <Box className="size-option" >{val}</Box>
+                                })
+                            }
+                        </Box>
+
                     </Box>
                 </Box>
                 <Box className='product-order'>

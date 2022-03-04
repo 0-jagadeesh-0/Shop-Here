@@ -1,6 +1,6 @@
 import { Box, Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { login } from '../../../api/auth';
 import Navbar from '../../../components/Navbar/Navbar';
 import './style.scss';
@@ -37,7 +37,7 @@ function Login() {
     }
 
 
-    return <Box className='main'>
+    return <>{localStorage.getItem("token") ? <Navigate to="/" /> : <Box className='main'>
         <Navbar />
 
         <Box className='login-form'>
@@ -77,7 +77,7 @@ function Login() {
             </Box>
         </Box>
 
-    </Box>;
+    </Box>}</>;
 }
 
 export default Login;

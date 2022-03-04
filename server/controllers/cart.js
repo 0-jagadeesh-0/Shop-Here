@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 const createCart = async (req, res) => {
 
     const { id } = req.params;
-    console.log(id);
 
     try {
         const newCart = await Cart({
@@ -31,6 +30,21 @@ const createCart = async (req, res) => {
             const savedCart = await newCart.save();
             res.status(200).json(savedCart);
         }
+
+    } catch (error) {
+        res.status(400).json(error);
+    }
+}
+
+// UPDATE CART ITEM 
+
+const updateCartItem = async (req, res) => {
+
+    try {
+        const cartItem = await Cart.findByIdAndUpdate({ _id: req.body.cartId }, {
+            $set: req.body
+        }, { new: true });
+        res.status(200).json(cartItem);
 
     } catch (error) {
         res.status(400).json(error);
@@ -63,6 +77,9 @@ const getCart = async (req, res) => {
     }
 }
 
+
+// DELETE CART ITEM 
+
 const deleteCartItem = async (req, res) => {
     const { id } = req.params;
     try {
@@ -73,4 +90,4 @@ const deleteCartItem = async (req, res) => {
     }
 }
 
-module.exports = { createCart, getCart, deleteCartItem };
+module.exports = { createCart, getCart, deleteCartItem, updateCartItem };

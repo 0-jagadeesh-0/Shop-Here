@@ -105,7 +105,7 @@ const findProduct = async (req, res) => {
 const getAdminProducts = async (req, res) => {
     const { id } = req.params;
     try {
-        let products = await Product.find({ userId: id });
+        let products = await Product.find({ adminId: id });
         res.status(200).json(products);
 
     } catch (error) {

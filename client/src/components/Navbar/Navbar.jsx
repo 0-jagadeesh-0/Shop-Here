@@ -20,11 +20,15 @@ function Navbar() {
 
     // const [quantity, setQuantity] = useState(0);
 
+
     useEffect(() => {
-        getusercart().then((res) => {
-            updateCart(res.data);
-        })
-    }, [])
+        if (localStorage.getItem("token")) {
+            getusercart().then((res) => {
+                updateCart(res.data);
+            })
+        }
+
+    }, [updateCart])
 
 
     const [popup, setPopup] = useState(false);
@@ -97,7 +101,7 @@ function Navbar() {
             }
             {
                 localStorage.getItem("isAdmin") === "true" ? null : <IconButton onClick={handleCartClick} className='cart-badge'>
-                    <Badge badgeContent={cartItems.length} color='secondary'>
+                    <Badge badgeContent={localStorage.getItem("token") ? cartItems.length : 0} color='secondary'>
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>

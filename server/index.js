@@ -7,6 +7,7 @@ const userRoutes = require("./routes/user");
 const productRoutes = require("./routes/product");
 const uploadRoutes = require("./routes/upload");
 const cartRoutes = require("./routes/cart");
+const orderRoutes = require("./routes/order");
 
 
 dotenv.config();
@@ -24,11 +25,12 @@ app.use("/api/auth/", authRoutes);
 app.use("/api/user/", userRoutes);
 app.use("/api/product/", productRoutes);
 app.use("/api/cart/", cartRoutes);
+app.use("/api/order/", orderRoutes);
 
 app.get("/", (req, res) => {
     res.status(200).json("Hello");
 })
 
-app.listen(8000, () => {
+app.listen(5000, () => {
     console.log("Server Connection Successful.");
 })

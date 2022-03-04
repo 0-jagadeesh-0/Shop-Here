@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-    cartId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart"
-    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -12,10 +8,16 @@ const orderSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
+    },
+    quantity: {
+        type: Number
+    },
+    status: {
+        type: String,
+        default: "Ordered"
     }
-
-
-
+}, {
+    timestamps: true
 })
 
 const Order = mongoose.model("Order", orderSchema);

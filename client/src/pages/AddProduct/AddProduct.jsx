@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { addproduct } from '../../api/products';
-import { upload } from '../../api/upload';
 import './style.scss'
 import AddIcon from '@mui/icons-material/Add';
 
@@ -17,7 +16,6 @@ function AddProduct() {
     }
     const [input, setInput] = useState(initialValues);
     const [previewSource, setPreviewSource] = useState("");
-    const [image, setImage] = useState("");
 
     const adminId = localStorage.getItem("userId");
 
@@ -27,13 +25,7 @@ function AddProduct() {
     const handleClick = async (e) => {
         e.preventDefault();
         if (!previewSource) return;
-        // await upload({ data: previewSource }).then((res) => {
-        //     setImage(res.data);
-        //     console.log(res.data);
-        // }).catch((err) => {
-        //     console.log(err);
-        // })
-        addproduct({ ...input, category: input.category.split(','), previewSource, adminId }).then((res) => {
+        addproduct({ ...input, category: input.category.split(','), size: input.size.split(','), previewSource, adminId }).then((res) => {
             console.log(res.data);
         }).catch((res) => {
             console.log(res.data);
@@ -45,8 +37,6 @@ function AddProduct() {
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
-        // console.log(file);
-        // setFileInput(file);
         preViewFile(file);
         console.log(previewSource);
     }
@@ -98,20 +88,20 @@ function AddProduct() {
                 <TextField
                     className='text-field'
                     size='small'
+                    name='size'
+                    value={input.size}
+                    label='Size'
+                    onChange={handleInputChange}
+                />
+                <TextField
+                    className='text-field'
+                    size='small'
                     name='price'
                     value={input.price}
                     label="price"
                     onChange={handleInputChange}
                 />
 
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='size'
-                    value={input.size}
-                    label="Size"
-                    onChange={handleInputChange}
-                />
                 <TextField
                     className='text-field'
                     size='small'
