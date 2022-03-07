@@ -111,10 +111,14 @@ function AddProduct() {
                     onChange={handleInputChange}
                 />
 
-                <input
+                <label htmlFor='image-id' style={{ cursor: "pointer", padding: "5px 0", borderRadius: "5px", textAlign: "center", margin: "5% 0", backgroundColor: "blue", color: "white" }} >
+                    Upload
+                </label>
 
+                <input
+                    id="image-id"
                     onChange={handleFileInputChange}
-                    style={{ margin: "5% 0", border: "none", cursor: "pointer" }}
+                    style={{ display: "none" }}
                     type='file'
                     accept="image/*"
 

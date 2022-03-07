@@ -1,5 +1,6 @@
 import './style.scss';
-import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Paper, Typography } from '@mui/material';
 import Navbar from '../../../components/Navbar/Navbar';
 import { Navigate, useNavigate } from 'react-router-dom';
 import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
@@ -8,9 +9,23 @@ import ManageAccountsSharpIcon from '@mui/icons-material/ManageAccountsSharp';
 import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
 import ExitToAppSharpIcon from '@mui/icons-material/ExitToAppSharp';
 import DensitySmallSharpIcon from '@mui/icons-material/DensitySmallSharp';
+import { getadminorders } from '../../../api/order';
 
 function AdminDashBoard() {
     const navigate = useNavigate();
+
+
+    const [orders, setOrders] = useState("");
+
+    useEffect(() => {
+
+        getadminorders().then((res) => {
+            setOrders(res.data);
+        })
+
+    }, [])
+
+
     return <>{localStorage.getItem("isAdmin") ? <Box className='admin-dashboard'>
         <Navbar />
         <Box className='dashboard'>
@@ -33,7 +48,7 @@ function AdminDashBoard() {
                         MY PRODUCTS
                     </Typography>
                 </Box>
-                <Box onClick={() => navigate("/dashboard")} className='sidebar-menu'>
+                <Box onClick={() => navigate("/orders/list")} className='sidebar-menu'>
                     <AddShoppingCartSharpIcon color='primary' className='menu-icon' />
                     <Typography>
                         ORDERS
@@ -55,7 +70,9 @@ function AdminDashBoard() {
 
             </Box>
             <Box className='stats-container'>
-
+                <Paper elevation={4}>
+                    {orders.length}
+                </Paper>
             </Box>
         </Box>
     </Box> : <Navigate to="/" />}</>;

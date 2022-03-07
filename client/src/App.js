@@ -14,6 +14,7 @@ import AdminProducts from './pages/AdminProducts/AdminProducts';
 import AdminProduct from './pages/AdminProduct/AdminProduct';
 import UpdateProduct from './pages/UpdateProduct/UpdateProduct';
 import Cart from './pages/Cart/Cart';
+import AdminOrders from './pages/Dashboard/AdminDashBoard/components/AdminOrders/AdminOrders';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/myproducts' element={<AdminProducts />} />
           <Route path='/:id' element={<AdminProduct />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders/list" element={<AdminOrders />} />
         </Routes>
       </Router>
     </>

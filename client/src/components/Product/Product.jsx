@@ -31,10 +31,10 @@ function Product() {
     }, [productId]);
 
     const handleClick = async () => {
-        await addcartitem({ quantity, productId }).then((res) => {
+        await addcartitem({ quantity, productId, adminId: product.adminId }).then((res) => {
             console.log(res);
         })
-        await addorder({ quantity, productId }).then((res) => {
+        await addorder({ quantity, productId, adminId: product.adminId }).then((res) => {
             console.log(res);
         })
         getusercart().then((res) => {
