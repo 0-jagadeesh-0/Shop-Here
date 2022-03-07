@@ -11,6 +11,7 @@ const createCart = async (req, res) => {
     try {
         const newCart = await Cart({
             userId: id,
+            adminId: req.body.adminId,
             productId: req.body.productId,
             quantity: req.body.quantity
         });

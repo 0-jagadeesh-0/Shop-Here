@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/add/:id", verifyToken, addOrder);
 router.get("/:id", verifyTokenAndAuthorization, getOrders);
-router.get("/:id", verifyTokenAndAdmin, getAdminOrders);
+router.get("/admin/:id", getAdminOrders);
 router.put("/:id", verifyTokenAndAuthorization, updateOrder);
 router.delete("/:id", verifyToken, deleteOrder);
 

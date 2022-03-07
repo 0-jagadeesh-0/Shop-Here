@@ -9,6 +9,7 @@ const addOrder = async (req, res) => {
     try {
         const newOrder = await Order({
             userId: id,
+            adminId: req.body.adminId,
             productId: req.body.productId,
             quantity: req.body.quantity
         });
@@ -51,20 +52,8 @@ const getOrders = async (req, res) => {
 const getAdminOrders = async (req, res) => {
     const { id } = req.params;
     try {
-        const adminOrders = new Map();
-        const orders = await Order.find().populate('productId');
-        orders.forEach(order => {
-            (order.productId.adminId === id)
-            {
-                if (adminOrders.get(order.productId) !== undefined) {
-                    adminOrders[order.productId]++;
-                }
-                else {
-                    adminOrders.set(order.productId, 1);
-                }
-            }
-            res.status(200).json(adminOrders);
-        })
+        const orders = await Order.find({ adminId: id }).populate('productId');
+        res.status(200).json(orders);
     } catch (error) {
         res.status(400).json("Something went wrong!")
     }
