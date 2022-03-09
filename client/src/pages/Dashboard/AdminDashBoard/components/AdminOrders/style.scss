@@ -1,0 +1,23 @@
+.orders-container {
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+
+
+
+    tr {
+        text-align: center;
+    }
+
+    td,
+    th {
+        padding: 2% 0;
+        border: solid black;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+}
