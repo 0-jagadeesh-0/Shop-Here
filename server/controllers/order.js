@@ -63,14 +63,16 @@ const getAdminOrders = async (req, res) => {
 
 const updateOrder = async (req, res) => {
 
+    const { id } = req.params;
+
     try {
-        const order = await Order.findByIdAndUpdate({ _id: req.body.cartId }, {
+        const order = await Order.findOneAndUpdate({ userId: id, productId: req.body.productId }, {
             $set: req.body
         }, { new: true });
         res.status(200).json(order);
 
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json("something went wrong!");
     }
 }
 
@@ -79,7 +81,7 @@ const updateOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
     const { id } = req.params;
     try {
-        const item = await Order.findByIdAndRemove({ _id: id });
+        await Order.findOneAndRemove({ userId: id, productId: req.body.productId });
         res.status(200).json("Deleted.");
     } catch (error) {
         res.status(400).json(error);

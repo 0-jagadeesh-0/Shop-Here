@@ -62,12 +62,13 @@ const getCart = async (req, res) => {
         if (cartItems.length === 0) return res.status(203).json({ message: "Cart is Empty." });
         cartItems.forEach(product => {
             const cartId = product._id;
+            const productId = product.productId._id;
             const title = product.productId.title;
             const description = product.productId.description;
             const image = product.productId.image;
             const price = product.productId.price;
             const quant = product.quantity;
-            const data = { title, cartId, description, price, image, quant };
+            const data = { title, productId, cartId, description, price, image, quant };
             products.push(data);
         })
         res.status(200).json(products);
