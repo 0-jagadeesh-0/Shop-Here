@@ -101,7 +101,7 @@ function Navbar() {
             }
             {
                 localStorage.getItem("isAdmin") === "true" ? null : <IconButton onClick={handleCartClick} className='cart-badge'>
-                    <Badge badgeContent={localStorage.getItem("token") ? cartItems.length : 0} color='secondary'>
+                    <Badge badgeContent={cartItems.length} color='secondary'>
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>

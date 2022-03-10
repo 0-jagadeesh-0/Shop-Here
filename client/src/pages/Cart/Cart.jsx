@@ -8,7 +8,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { Navigate } from 'react-router-dom';
 import { CartContext } from './cartContext';
-import { deleteorder } from '../../api/order';
+import { deleteorder, updateorder } from '../../api/order';
 
 
 
@@ -28,6 +28,7 @@ function Cart() {
             }
             else {
                 updateCart(res.data);
+
             }
         })
         const findSum = () => {
@@ -38,24 +39,31 @@ function Cart() {
         }
         findSum();
         setsum(total);
+
     }, [cartItems, updateCart]);
 
-    const handleIncrease = (id, value) => {
+    const handleIncrease = (id, value, pId) => {
         updatecart({ cartId: id, quantity: (value + 1) }).then((res) => {
             console.log(res.data);
         })
+        updateorder({ productId: pId, quantity: (value + 1) }).then((res) => {
+            console.log(res.data);
+        })
     }
-    const handleDecrease = (id, value) => {
+    const handleDecrease = (id, value, pId) => {
         updatecart({ cartId: id, quantity: (value - 1) }).then((res) => {
+            console.log(res.data);
+        })
+        updateorder({ productId: pId, quantity: (value - 1) }).then((res) => {
             console.log(res.data);
         })
     }
 
-    const handleRemove = (id) => {
+    const handleRemove = (id, pid) => {
         deleteitem(id).then((res) => {
             console.log(res);
         })
-        deleteorder(id).then((res) => {
+        deleteorder({ productId: pid }).then((res) => {
             console.log(res);
         })
     }
@@ -73,7 +81,7 @@ function Cart() {
             </Container> : <Box className="cart">
                 <Box className='cart-products'>
                     {
-                        cartItems.map((val, index) => {
+                        cartItems?.map((val, index) => {
                             return <Box key={index} className="cart-item">
                                 <Image
                                     cloudName={process.env.REACT_APP_CLOUDINARY_USER_NAME}
@@ -86,18 +94,18 @@ function Cart() {
                                     <span style={{ fontWeight: "normal", fontSize: "1rem" }}>{val.description}</span>
                                 </Typography>
                                 <Box className="product-quantity">
-                                    <AddCircleOutlineOutlinedIcon onClick={() => { handleIncrease(val.cartId, val.quant) }} style={{ cursor: "pointer" }} />
+                                    <AddCircleOutlineOutlinedIcon onClick={() => { handleIncrease(val.cartId, val.quant, val.productId) }} style={{ cursor: "pointer" }} />
                                     <Typography>
 
                                         {val.quant}
                                     </Typography>
-                                    <RemoveCircleOutlineOutlinedIcon onClick={() => { handleDecrease(val.cartId, val.quant) }} style={{ cursor: "pointer" }} />
+                                    <RemoveCircleOutlineOutlinedIcon onClick={() => { handleDecrease(val.cartId, val.quant, val.productId) }} style={{ cursor: "pointer" }} />
                                 </Box>
                                 <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
                                     <Typography style={{ margin: "10px 0", fontWeight: "600" }}>
                                         {val.quant * val.price}
                                     </Typography>
-                                    <Button variant="contained" style={{ backgroundColor: "red" }} size="small" disableElevation onClick={() => { handleRemove(val.cartId) }}>
+                                    <Button variant="contained" style={{ backgroundColor: "red" }} size="small" disableElevation onClick={() => { handleRemove(val.cartId, val.productId) }}>
                                         Remove
                                     </Button>
                                 </Box>

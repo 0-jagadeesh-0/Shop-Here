@@ -8,14 +8,24 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 function AdminOrders() {
     const [orders, setOrders] = useState([]);
+    const [statusUpdate, setstatusUpdate] = useState(false);
+
+
 
     useEffect(() => {
+
 
         getadminorders().then((res) => {
             setOrders(res.data);
         })
 
-    }, [])
+    }, [statusUpdate])
+    const handleAccept = (id) => {
+
+    }
+    const handleReject = (id) => {
+
+    }
     return (
         <>
             <Navbar />
@@ -42,6 +52,9 @@ function AdminOrders() {
                             Item Price
                         </th>
                         <th>
+                            Total
+                        </th>
+                        <th>
                             Change Status
                         </th>
                         <th>
@@ -65,6 +78,9 @@ function AdminOrders() {
                                 </td>
                                 <td>
                                     {val.productId.price}
+                                </td>
+                                <td>
+                                    {val.quantity * val.productId.price}
                                 </td>
 
                                 <td>

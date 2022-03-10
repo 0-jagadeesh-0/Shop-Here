@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage/LandingPage';
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Auth/Signup/Signup';
 import Login from './pages/Auth/Login/Login';
 import SearchBar from './components/SearchBar/SearchBar';
@@ -12,7 +11,6 @@ import AdminDashBoard from './pages/Dashboard/AdminDashBoard/AdminDashBoard';
 import AddProduct from './pages/AddProduct/AddProduct';
 import AdminProducts from './pages/AdminProducts/AdminProducts';
 import AdminProduct from './pages/AdminProduct/AdminProduct';
-import UpdateProduct from './pages/UpdateProduct/UpdateProduct';
 import Cart from './pages/Cart/Cart';
 import AdminOrders from './pages/Dashboard/AdminDashBoard/components/AdminOrders/AdminOrders';
 
