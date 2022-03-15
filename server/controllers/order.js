@@ -76,6 +76,22 @@ const updateOrder = async (req, res) => {
     }
 }
 
+// UPDATE ORDER STATUS
+
+const updateStatus = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findByIdAndUpdate({ _id: id }, {
+            $set: req.body
+        }, { new: true });
+        res.status(200).json(order);
+
+    } catch (error) {
+        res.status(400).json("something went wrong!");
+
+    }
+}
+
 // DELETE ORDER 
 
 const deleteOrder = async (req, res) => {
@@ -88,4 +104,4 @@ const deleteOrder = async (req, res) => {
     }
 }
 
-module.exports = { addOrder, getOrders, getAdminOrders, deleteOrder, updateOrder };
+module.exports = { addOrder, updateStatus, getOrders, getAdminOrders, deleteOrder, updateOrder };
