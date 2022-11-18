@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import Category from '../Category/Category';
-import Footer from '../Footer/Footer';
-import Navbar from '../Navbar/Navbar';
-import Slider from '../Slider/Slider';
+import Slider from '../../components/Slider/Slider';
+import Category from '../../components/Category/Category';
+import Footer from '../../components/Footer/Footer';
+import Navbar from '../../components/Navbar/Navbar';
 
 function LandingPage() {
     return <Box className='landing-page'>

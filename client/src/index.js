@@ -12,8 +12,6 @@ ReactDOM.render(
   <CartContextProvider>
     <App />
   </CartContextProvider>
-
-
   ,
   document.getElementById('root')
 );

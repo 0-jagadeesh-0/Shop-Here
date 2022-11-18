@@ -16,7 +16,6 @@ function Products() {
 
 
 
-
     useEffect(() => {
         getallproducts(category).then((res) => {
             setProducts(res.data);
@@ -45,7 +44,7 @@ function Products() {
                             </Typography>
 
                             <Typography >
-                                $ {val.price}
+                                ₹ {val.price}
                             </Typography>
                         </Box>
 

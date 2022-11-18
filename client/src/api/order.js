@@ -11,7 +11,7 @@ export const addorder = async (payload) => {
 }
 
 export const deleteorder = async (payload) => {
-    return await axios.delete(`${BASE_URL}/api/order/${localStorage.getItem("userId")}`, payload, { headers: { "token": localStorage.getItem("token") } });
+    return await axios.delete(`${BASE_URL}/api/order/remove/${localStorage.getItem("userId")}`, payload, { headers: { "token": localStorage.getItem("token") } });
 }
 
 export const updateorder = async (payload) => {

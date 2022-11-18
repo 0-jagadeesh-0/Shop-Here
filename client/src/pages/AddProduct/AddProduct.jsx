@@ -1,8 +1,9 @@
-import { Avatar, Box, Button, TextField } from '@mui/material';
+import { Alert, Avatar, Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { addproduct } from '../../api/products';
 import './style.scss'
 import AddIcon from '@mui/icons-material/Add';
+import Navbar from '../../components/Navbar/Navbar';
 
 function AddProduct() {
 
@@ -16,6 +17,7 @@ function AddProduct() {
     }
     const [input, setInput] = useState(initialValues);
     const [previewSource, setPreviewSource] = useState("");
+    const [status, setStatus] = useState(false);
 
     const adminId = localStorage.getItem("userId");
 
@@ -27,6 +29,7 @@ function AddProduct() {
         if (!previewSource) return;
         addproduct({ ...input, category: input.category.split(','), size: input.size.split(','), previewSource, adminId }).then((res) => {
             console.log(res.data);
+            setStatus(true);
         }).catch((res) => {
             console.log(res.data);
         })
@@ -54,91 +57,91 @@ function AddProduct() {
         setInput({ ...input, [name]: value });
     }
 
-    return <Box className='add-product-container'>
-        <Box className='product-info'>
-            <Avatar style={{ backgroundColor: "#2196f3", margin: "1% 0" }}  >
-                <AddIcon />
-            </Avatar>
-            <Box className='info'>
+    return <>
+        <Navbar />
+        <Box className='add-product-container'>
+            <Box className='product-info'>
+                <Avatar style={{ backgroundColor: "#2196f3", margin: "1% 0" }}  >
+                    <AddIcon />
+                </Avatar>
+                {status && <Alert style={{ margin: "10px 0" }} onClose={() => { setStatus(false) }} >Item Added Successfully.</Alert>}
+                <Box className='info'>
 
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='title'
-                    value={input.title}
-                    label="Title"
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='description'
-                    value={input.description}
-                    label="Description"
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='category'
-                    value={input.category}
-                    label='Category'
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='size'
-                    value={input.size}
-                    label='Size'
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='price'
-                    value={input.price}
-                    label="price"
-                    onChange={handleInputChange}
-                />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='title'
+                        value={input.title}
+                        label="Title"
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='description'
+                        value={input.description}
+                        label="Description"
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='category'
+                        value={input.category}
+                        label='Category'
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='size'
+                        value={input.size}
+                        label='Size'
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='price'
+                        value={input.price}
+                        label="price"
+                        onChange={handleInputChange}
+                    />
 
-                <TextField
-                    className='text-field'
-                    size='small'
-                    name='color'
-                    value={input.color}
-                    label="Color"
-                    onChange={handleInputChange}
-                />
+                    <TextField
+                        className='text-field'
+                        size='small'
+                        name='color'
+                        value={input.color}
+                        label="Color"
+                        onChange={handleInputChange}
+                    />
 
-                <label htmlFor='image-id' style={{ cursor: "pointer", padding: "5px 0", borderRadius: "5px", textAlign: "center", margin: "5% 0", backgroundColor: "blue", color: "white" }} >
-                    Upload
-                </label>
+                    <label htmlFor='image-id' style={{ cursor: "pointer", padding: "5px 0", borderRadius: "5px", textAlign: "center", margin: "5% 0", backgroundColor: "blue", color: "white" }} >
+                        Upload
+                    </label>
 
-                <input
-                    id="image-id"
-                    onChange={handleFileInputChange}
-                    style={{ display: "none" }}
-                    type='file'
-                    accept="image/*"
+                    <input
+                        id="image-id"
+                        onChange={handleFileInputChange}
+                        style={{ display: "none" }}
+                        type='file'
+                        accept="image/*"
 
-                />
-                {
-                    previewSource && (
-                        <img style={{ width: "300px", height: "300px" }} src={previewSource} alt="" />
-                    )
-                }
+                    />
+                    {
+                        previewSource && (
+                            <img style={{ width: "300px", height: "300px" }} src={previewSource} alt="" />
+                        )
+                    }
+                    <Button onClick={handleClick} variant="contained" color="primary" disableElevation>
+                        ADD PRODUCT
+                    </Button>
+                </Box>
 
 
-
-                <Button onClick={handleClick} variant="contained" color="primary" disableElevation>
-                    ADD PRODUCT
-                </Button>
             </Box>
-
-
-        </Box>
-    </Box>;
+        </Box></>;
 }
 
 export default AddProduct;

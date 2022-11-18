@@ -15,7 +15,7 @@ function AdminDashBoard() {
     const navigate = useNavigate();
 
 
-    const [orders, setOrders] = useState("");
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
 
@@ -70,8 +70,22 @@ function AdminDashBoard() {
 
             </Box>
             <Box className='stats-container'>
-                <Paper elevation={4}>
-                    {orders.length}
+                <Paper className='total-orders' elevation={4}>
+                    <Typography variant='h6' style={{ fontWeight: "bolder" }} color='primary' >Total Orders</Typography>
+                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders.length}</Typography>
+
+                </Paper>
+                <Paper className='total-orders' elevation={4}>
+                    <Typography variant='h6' style={{ fontWeight: "bolder" }} color='secondary' > Accepted Orders</Typography>
+                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders.length}</Typography>
+                </Paper>
+                <Paper className='total-orders' elevation={4}>
+                    <Typography variant='h6' style={{ fontWeight: "bolder" }} color='secondary' >Cancelled Orders </Typography>
+                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders.length}</Typography>
+                </Paper>
+                <Paper className='total-orders' elevation={4}>
+                    <Typography variant='h6' style={{ fontWeight: "bolder" }} color='secondary' >Delivered Orders </Typography>
+                    <Typography variant='h5' style={{ fontWeight: "bolder" }} >{orders.length}</Typography>
                 </Paper>
             </Box>
         </Box>

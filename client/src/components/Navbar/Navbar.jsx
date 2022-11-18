@@ -19,16 +19,31 @@ function Navbar() {
     // console.log(item);
 
     // const [quantity, setQuantity] = useState(0);
+    const [len, setlen] = useState(0);
 
+    // useEffect(() => {
+    //     if (localStorage.getItem("token") !== null) {
+    //         getusercart().then((res) => {
+    //             console.log(res.data.cartItems.length);
+
+    //             // updateCart(res.data);
+    //             // console.log(cartItems);
+    //         })
+    //     }
+
+    // })
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem("token") !== null) {
             getusercart().then((res) => {
-                updateCart(res.data);
+                console.log(res.data);
+                setlen(res.data.cartItems.length)
+                // updateCart(res.data);
+                // console.log(cartItems);
             })
         }
 
-    }, [updateCart])
+    }, [cartItems])
 
 
     const [popup, setPopup] = useState(false);
@@ -50,7 +65,7 @@ function Navbar() {
         type = "SIGNUP";
     }
     else {
-        type = "SIGNUP"
+        type = "LOGIN"
     }
 
     const handleClick = (e) => {
@@ -62,9 +77,11 @@ function Navbar() {
             navigate('/register');
         }
         if (type === "LOGOUT") {
+
             localStorage.clear();
-            updateCart([]);
             navigate("/");
+
+
         }
     }
 
@@ -75,6 +92,8 @@ function Navbar() {
         }
         else {
             setPopup(true);
+
+            setTimeout(() => setPopup(false), 3000);
 
         }
 
@@ -101,7 +120,7 @@ function Navbar() {
             }
             {
                 localStorage.getItem("isAdmin") === "true" ? null : <IconButton onClick={handleCartClick} className='cart-badge'>
-                    <Badge badgeContent={cartItems.length} color='secondary'>
+                    <Badge badgeContent={len} color='secondary'>
                         <ShoppingCartIcon color="primary" />
                     </Badge>
                 </IconButton>

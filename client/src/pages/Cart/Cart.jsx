@@ -6,65 +6,55 @@ import './style.scss'
 import { Image } from 'cloudinary-react';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { CartContext } from './cartContext';
 import { deleteorder, updateorder } from '../../api/order';
+import EmptyCart from './EmptyCart';
 
 
 
 function Cart() {
-    const { cartItems, updateCart } = useContext(CartContext);
 
-    const [empty, setEmpty] = useState(false);
-    const [sum, setsum] = useState(0);
-    const discount = (sum * 0.02).toFixed(2);
+
+    const { total, cartItems, updateCart } = useContext(CartContext);
+    const [update, setupdate] = useState(false);
+
+    const discount = (total * 0.02).toFixed(2);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        let total = 0;
-
+        console.log("deleted");
         getusercart().then((res) => {
-            if (res.status === 203) {
-                setEmpty(true);
-            }
-            else {
-                updateCart(res.data);
-
-            }
+            updateCart(res.data);
         })
-        const findSum = () => {
+    }, [update])
 
-            cartItems.forEach(item => {
-                total += (item.quant * item.price);
-            });
-        }
-        findSum();
-        setsum(total);
 
-    }, [cartItems, updateCart]);
 
-    const handleIncrease = (id, value, pId) => {
-        updatecart({ cartId: id, quantity: (value + 1) }).then((res) => {
+
+    const handleIncrease = (idx, value) => {
+
+        updatecart({ index: idx, quantity: (value + 1) }).then((res) => {
             console.log(res.data);
+            setupdate(!update);
         })
-        updateorder({ productId: pId, quantity: (value + 1) }).then((res) => {
-            console.log(res.data);
-        })
+
     }
-    const handleDecrease = (id, value, pId) => {
-        updatecart({ cartId: id, quantity: (value - 1) }).then((res) => {
+    const handleDecrease = (idx, value) => {
+
+        updatecart({ index: idx, quantity: (value - 1) }).then((res) => {
             console.log(res.data);
+            setupdate(!update);
         })
-        updateorder({ productId: pId, quantity: (value - 1) }).then((res) => {
-            console.log(res.data);
-        })
+
+
     }
 
-    const handleRemove = (id, pid) => {
-        deleteitem(id).then((res) => {
-            console.log(res);
-        })
-        deleteorder({ productId: pid }).then((res) => {
-            console.log(res);
+    const handleRemove = async (idx) => {
+        await deleteitem({ id: idx }).then((res) => {
+            console.log(res.data);
+            setupdate(!update);
         })
     }
 
@@ -73,39 +63,39 @@ function Cart() {
 
 
 
-    return <>{localStorage.getItem("token") ? <Box className='cart-container'>
+    return <>{localStorage.getItem("token") !== null ? <Box className='cart-container'>
         <Navbar />
-        {
-            empty ? <Container style={{ width: "100vw" }}>
-                This Cart is Empty.
-            </Container> : <Box className="cart">
-                <Box className='cart-products'>
+
+        <Box className="cart">
+            {cartItems.length > 0 ?
+
+                <> <Box className='cart-products'>
                     {
-                        cartItems?.map((val, index) => {
+                        cartItems.map((val, index) => {
                             return <Box key={index} className="cart-item">
                                 <Image
                                     cloudName={process.env.REACT_APP_CLOUDINARY_USER_NAME}
-                                    publicId={val.image}
+                                    publicId={val.productId.image}
                                     width="150px"
                                     height="150px"
                                 />
                                 <Typography variant="h6" style={{ fontWeight: "bold" }}>
-                                    {val.title}<br />
-                                    <span style={{ fontWeight: "normal", fontSize: "1rem" }}>{val.description}</span>
+                                    {val.productId.title}<br />
+                                    <span style={{ fontWeight: "normal", fontSize: "1rem" }}>{val.productId.description}</span>
                                 </Typography>
                                 <Box className="product-quantity">
-                                    <AddCircleOutlineOutlinedIcon onClick={() => { handleIncrease(val.cartId, val.quant, val.productId) }} style={{ cursor: "pointer" }} />
+                                    <AddCircleOutlineOutlinedIcon onClick={() => { handleIncrease(index, val.quantity) }} style={{ cursor: "pointer" }} />
                                     <Typography>
 
-                                        {val.quant}
+                                        {val.quantity}
                                     </Typography>
-                                    <RemoveCircleOutlineOutlinedIcon onClick={() => { handleDecrease(val.cartId, val.quant, val.productId) }} style={{ cursor: "pointer" }} />
+                                    <RemoveCircleOutlineOutlinedIcon onClick={() => { handleDecrease(index, val.quantity) }} style={{ cursor: "pointer" }} />
                                 </Box>
                                 <Box style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
                                     <Typography style={{ margin: "10px 0", fontWeight: "600" }}>
-                                        {val.quant * val.price}
+                                        {val.quantity * val.productId.price}
                                     </Typography>
-                                    <Button variant="contained" style={{ backgroundColor: "red" }} size="small" disableElevation onClick={() => { handleRemove(val.cartId, val.productId) }}>
+                                    <Button variant="contained" style={{ backgroundColor: "red" }} size="small" disableElevation onClick={() => { handleRemove(index) }}>
                                         Remove
                                     </Button>
                                 </Box>
@@ -113,31 +103,32 @@ function Cart() {
                         })
                     }
                 </Box>
-                <Box className="checkout">
-                    <Paper className="checkout-box" elevation={3}>
-                        <Typography className='checkout-item'>
-                            <span style={{ fontWeight: "bold" }}>Price Details({cartItems.length} Items)</span>
-                        </Typography>
+                    <Box className="checkout">
+                        <Paper className="checkout-box" elevation={3}>
+                            <Typography className='checkout-item'>
+                                <span style={{ fontWeight: "bold" }}>Price Details({cartItems.length} Items)</span>
+                            </Typography>
 
-                        <Typography className='checkout-item'>
-                            Total MRP : ₹{sum}
-                        </Typography>
-                        <Typography className='checkout-item'>
-                            Discount on MRP : ₹{discount}
-                        </Typography>
-                        <hr />
-                        <Typography className='checkout-item'>
-                            <span style={{ fontWeight: "bold" }}>Total Amount :</span>  ₹{sum - discount}
-                        </Typography>
-                        <hr />
-                        <Button className='checkout-item' size="small" variant="contained" color="primary" disableElevation>
-                            place order
-                        </Button>
-                    </Paper>
-                </Box>
-            </Box>
+                            <Typography className='checkout-item'>
+                                Total MRP : ₹{total}
+                            </Typography>
+                            <Typography className='checkout-item'>
+                                Discount on MRP : ₹{discount}
+                            </Typography>
+                            <hr />
+                            <Typography className='checkout-item'>
+                                <span style={{ fontWeight: "bold" }}>Total Amount :</span>  ₹{total - discount}
+                            </Typography>
+                            <hr />
+                            <Button onClick={() => navigate('/address')} className='checkout-item' size="small" variant="contained" color="primary" disableElevation>
+                                Place order
+                            </Button>
+                        </Paper>
+                    </Box></> : <EmptyCart />
+            }
+        </Box>
 
-        }
+
 
     </Box> : <Navigate to="/" />}</>
 }

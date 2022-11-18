@@ -2,8 +2,8 @@ import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 
 
-export const getallproducts = async (category) => {
-    return await axios.get(category ? `${BASE_URL}/api/product/?category=${category}` : `${BASE_URL}/api/product`);
+export const getallproducts = async (category, size, color) => {
+    return await axios.get(category ? size ? color ? `${BASE_URL}/api/product/?category=${category}/?size=${size}/?color=${color}` : `${BASE_URL}/api/product/?category=${category}/?size=${size}` : `${BASE_URL}/api/product/?category=${category}` : `${BASE_URL}/api/product`);
 }
 
 export const getproduct = async (id) => {

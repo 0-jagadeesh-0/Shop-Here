@@ -19,6 +19,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await signup({ firstName, lastName, email, username, password }).then((res) => {
+            console.log(res);
             navigate("/login");
         })
     }

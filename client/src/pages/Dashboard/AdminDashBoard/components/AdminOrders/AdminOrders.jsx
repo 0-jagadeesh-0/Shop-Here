@@ -13,8 +13,6 @@ function AdminOrders() {
 
 
     useEffect(() => {
-
-
         getadminorders().then((res) => {
             setOrders(res.data);
         })

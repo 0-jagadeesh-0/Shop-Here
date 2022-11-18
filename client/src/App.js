@@ -1,5 +1,5 @@
 import './App.css';
-import LandingPage from './components/LandingPage/LandingPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Auth/Signup/Signup';
 import Login from './pages/Auth/Login/Login';
@@ -13,6 +13,7 @@ import AdminProducts from './pages/AdminProducts/AdminProducts';
 import AdminProduct from './pages/AdminProduct/AdminProduct';
 import Cart from './pages/Cart/Cart';
 import AdminOrders from './pages/Dashboard/AdminDashBoard/components/AdminOrders/AdminOrders';
+import Address from './components/Address/Address';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/search' element={<SearchBar />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path='/address' element={<Address />} />
           <Route path='/product/:id' element={<Product />} />
           <Route path='/products' element={<Products />} />
           <Route path='/products/:category' element={<Products />} />
