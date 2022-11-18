@@ -32,6 +32,13 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+userSchema.methods.validateUser = (data, cb) => {
+    console.log(data);
+    let res = 'No';
+    return cb(null, res);
+}
+
 const User = mongoose.model("User", userSchema);
+
 
 module.exports = User;

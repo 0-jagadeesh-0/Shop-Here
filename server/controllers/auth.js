@@ -11,18 +11,11 @@ const register = async (req, res) => {
             username: req.body.username,
             password: bcrypt.hashSync(req.body.password, 10)
         });
-
-        const firstName = newUser.firstName;
-        const lastName = newUser.lastName;
-        const username = newUser.username;
-
-        const data = { firstName, lastName, username };
-
-        await newUser.save();
-        res.status(200).json(data)
+        newUser.save();
+        res.status(200).json("success");
 
     } catch (error) {
-        res.status(400).json(error);
+        res.status(401).json(error);
     }
 }
 

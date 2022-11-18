@@ -5,17 +5,31 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    adminId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+    cart: {
+        totalQuantity: {
+            type: Number
+        },
+        totalAmount: {
+            type: Number
+        },
+        items: [
+            {
+                adminId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User"
+                },
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Product"
+                },
+                quantity: {
+                    type: Number,
+                    default: 1
+                }
+            }
+        ]
     },
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    },
-    quantity: {
-        type: Number
-    },
+    address: Object,
     status: {
         type: String,
         default: "Ordered"
@@ -25,5 +39,6 @@ const orderSchema = new mongoose.Schema({
 })
 
 const Order = mongoose.model("Order", orderSchema);
+
 
 module.exports = Order;

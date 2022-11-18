@@ -66,11 +66,31 @@ const getAllProducts = async (req, res) => {
     try {
         let products;
         if (qcategory) {
-            products = await Product.find({
-                category: {
-                    $in: [qcategory]
+            if (qsize) {
+                if (qcolor) {
+                    products = await Product.find({
+                        category: {
+                            $in: [qcategory]
+                        }, size: qsize, color: qcolor
+                    })
                 }
-            })
+                else {
+                    products = await Product.find({
+                        category: {
+                            $in: [qcategory]
+                        }, size: qsize
+                    })
+                }
+
+            }
+            else {
+                products = await Product.find({
+                    category: {
+                        $in: [qcategory]
+                    }
+                })
+            }
+
         }
         else if (qsize) {
             products = await Product.find({ size: qsize });
